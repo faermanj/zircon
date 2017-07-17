@@ -1,0 +1,14 @@
+service: zircon
+provider:
+  name: aws
+  runtime: nodejs6.10
+  stage: prod
+  region: us-east-1
+functions:
+  hello:
+    handler: handler.lookup
+    events:
+      - http:
+          path: /{proxy+}
+          method: get
+          cors: true
