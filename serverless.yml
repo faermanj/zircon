@@ -4,11 +4,21 @@ provider:
   runtime: nodejs6.10
   stage: prod
   region: us-east-1
+  memorySize: 128
+  timeout: 1
+
 functions:
-  hello:
-    handler: handler.lookup
+  apiLookup:
+    handler: api.lookup
     events:
       - http:
           path: /{proxy+}
           method: get
           cors: true
+  popLookup:
+    handler: pop.lookup
+    iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - "*"
+      Resource: "*"

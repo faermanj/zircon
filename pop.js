@@ -3,31 +3,28 @@ const data = require('./data');
 
 const response = (statusCode, url) => {
     return {
-        statusCode: statusCode,
+        status: statusCode,
+        statusDescription: 'Found',
         headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Credentials': true,
-            'Location': `${url}`
+            location: [{
+                key: 'Location',
+                value: url || ''
+            }],
         },
-        body: ''
     };
 };
 
-const pathOf = (path) =>
-    new Promise((resolve) => {
-        resolve(`${path}`.split('/').slice(-1)[0]);
-});
-
 module.exports.lookup = (event, context, callback) => {
+    console.log(event);
     process.on('unhandledRejection', (reason, message) => {
         console.error(reason);
         console.error(message);
         callback(reason,null);
     });
 
-    Promise.all([pathOf(event.path)
+    Promise.all([data.pathOf(event.path)
         .then(path => data.lookup(path))
-        .then((url) => response(301, url))
+        .then((url) => response(302, url))
         .catch(() => response(404))
         .then((resp) => callback(null, resp))
     ]);

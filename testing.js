@@ -1,7 +1,8 @@
 'use strict';
-const zircon = require('./handler');
+const pop = require('./pop');
+const api = require('./api');
 
-function debug(err,data){
+function print(err,data){
   if (err) {
     console.error(err);
   }
@@ -10,6 +11,11 @@ function debug(err,data){
   }
 }
 
-zircon.lookup({path:'/some/thing'},{},debug);
-zircon.lookup({path:'/some/gist'},{},debug);
-zircon.lookup({path:'/some/aws-tue'},{},debug);
+api.lookup({path:'/some/gist'},{},print);
+pop.lookup({Records:[{
+  cf:{
+    request:{
+      uri:'/some/gist'}
+    }}]},
+    {},
+    print);

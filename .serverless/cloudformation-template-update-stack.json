@@ -5,10 +5,16 @@
     "ServerlessDeploymentBucket": {
       "Type": "AWS::S3::Bucket"
     },
-    "HelloLogGroup": {
+    "ApiLookupLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/zircon-prod-hello"
+        "LogGroupName": "/aws/lambda/zircon-prod-apiLookup"
+      }
+    },
+    "PopLookupLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/zircon-prod-popLookup"
       }
     },
     "IamRoleLambdaExecution": {
@@ -52,10 +58,10 @@
                   ],
                   "Resource": [
                     {
-                      "Fn::GetAtt": [
-                        "HelloLogGroup",
-                        "Arn"
-                      ]
+                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/zircon-prod-apiLookup:*"
+                    },
+                    {
+                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/zircon-prod-popLookup:*"
                     }
                   ]
                 },
@@ -66,18 +72,10 @@
                   ],
                   "Resource": [
                     {
-                      "Fn::Join": [
-                        ":",
-                        [
-                          {
-                            "Fn::GetAtt": [
-                              "HelloLogGroup",
-                              "Arn"
-                            ]
-                          },
-                          "*"
-                        ]
-                      ]
+                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/zircon-prod-apiLookup:*:*"
+                    },
+                    {
+                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/zircon-prod-popLookup:*:*"
                     }
                   ]
                 }
@@ -99,18 +97,18 @@
         }
       }
     },
-    "HelloLambdaFunction": {
+    "ApiLookupLambdaFunction": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/zircon/prod/1500293475316-2017-07-17T12:11:15.316Z/zircon.zip"
+          "S3Key": "serverless/zircon/prod/1500417274124-2017-07-18T22:34:34.124Z/zircon.zip"
         },
-        "FunctionName": "zircon-prod-hello",
-        "Handler": "handler.lookup",
-        "MemorySize": 1024,
+        "FunctionName": "zircon-prod-apiLookup",
+        "Handler": "api.lookup",
+        "MemorySize": 128,
         "Role": {
           "Fn::GetAtt": [
             "IamRoleLambdaExecution",
@@ -118,20 +116,57 @@
           ]
         },
         "Runtime": "nodejs6.10",
-        "Timeout": 6
+        "Timeout": 1
       },
       "DependsOn": [
+        "ApiLookupLogGroup",
         "IamRoleLambdaExecution"
       ]
     },
-    "HelloLambdaVersionxiq2pBpPw5S2chvZwMT06cqXFm6GcfZIiuhAgz78O0": {
+    "ApiLookupLambdaVersionot5RXOtBNNmsOMyHznPggnS8f1yJFYx90yJp2Yubg": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
-          "Ref": "HelloLambdaFunction"
+          "Ref": "ApiLookupLambdaFunction"
         },
-        "CodeSha256": "xiq2pBpPw5S2chvZwMT06cqXFm6GcfZIiuhAgz78+O0="
+        "CodeSha256": "ot5+RXOt+BNNmsOMyHznPggnS8f1yJFYx90yJp2Yubg="
+      }
+    },
+    "PopLookupLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/zircon/prod/1500417274124-2017-07-18T22:34:34.124Z/zircon.zip"
+        },
+        "FunctionName": "zircon-prod-popLookup",
+        "Handler": "pop.lookup",
+        "MemorySize": 128,
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        },
+        "Runtime": "nodejs6.10",
+        "Timeout": 1
+      },
+      "DependsOn": [
+        "PopLookupLogGroup",
+        "IamRoleLambdaExecution"
+      ]
+    },
+    "PopLookupLambdaVersionot5RXOtBNNmsOMyHznPggnS8f1yJFYx90yJp2Yubg": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "PopLookupLambdaFunction"
+        },
+        "CodeSha256": "ot5+RXOt+BNNmsOMyHznPggnS8f1yJFYx90yJp2Yubg="
       }
     },
     "ApiGatewayRestApi": {
@@ -183,7 +218,7 @@
               "StatusCode": "200",
               "ResponseParameters": {
                 "method.response.header.Access-Control-Allow-Origin": "'*'",
-                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
                 "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'",
                 "method.response.header.Access-Control-Allow-Credentials": "'false'"
               },
@@ -227,7 +262,7 @@
                 ":lambda:path/2015-03-31/functions/",
                 {
                   "Fn::GetAtt": [
-                    "HelloLambdaFunction",
+                    "ApiLookupLambdaFunction",
                     "Arn"
                   ]
                 },
@@ -239,7 +274,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1500293475325": {
+    "ApiGatewayDeployment1500417274134": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -251,12 +286,12 @@
         "ApiGatewayMethodProxyVarGet"
       ]
     },
-    "HelloLambdaPermissionApiGateway": {
+    "ApiLookupLambdaPermissionApiGateway": {
       "Type": "AWS::Lambda::Permission",
       "Properties": {
         "FunctionName": {
           "Fn::GetAtt": [
-            "HelloLambdaFunction",
+            "ApiLookupLambdaFunction",
             "Arn"
           ]
         },
@@ -291,10 +326,16 @@
         "Ref": "ServerlessDeploymentBucket"
       }
     },
-    "HelloLambdaFunctionQualifiedArn": {
+    "ApiLookupLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "HelloLambdaVersionxiq2pBpPw5S2chvZwMT06cqXFm6GcfZIiuhAgz78O0"
+        "Ref": "ApiLookupLambdaVersionot5RXOtBNNmsOMyHznPggnS8f1yJFYx90yJp2Yubg"
+      }
+    },
+    "PopLookupLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "PopLookupLambdaVersionot5RXOtBNNmsOMyHznPggnS8f1yJFYx90yJp2Yubg"
       }
     },
     "ServiceEndpoint": {
