@@ -7,7 +7,8 @@ const urls = {
   'sec-overview': 'https://d0.awsstatic.com/whitepapers/aws-security-whitepaper.pdf',
   'sec-minicon': 'https://www.youtube.com/watch?v=8ZljcKn8FPA',
   'aws-tue': 'https://www.youtube.com/watch?v=AyOAjFNPAbA',
-  'tdc-aws17':'https://gist.github.com/jfaerman/4b2f97922bb41fa2df322492d01b3cf5'
+  'tdc-aws17':'https://gist.github.com/jfaerman/4b2f97922bb41fa2df322492d01b3cf5',
+  'tdc':'https://docs.google.com/forms/d/e/1FAIpQLSdIx1C4u7QV6E960R-6Dcp_hKH-3Vzpd_8Ov1iZinxdRYwaIQ/viewform?usp=sf_link'
 };
 
 const pathOf = (path) =>

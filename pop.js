@@ -2,13 +2,14 @@
 const data = require('./data');
 
 const response = (statusCode, url) => {
+    console.log("URL "+ typeof(url));
     return {
         status: statusCode,
         statusDescription: 'Found',
         headers: {
             location: [{
                 key: 'Location',
-                value: url || ''
+                value: `${url}`
             }],
         },
     };
@@ -22,7 +23,7 @@ module.exports.lookup = (event, context, callback) => {
         callback(reason,null);
     });
 
-    Promise.all([data.pathOf(event.path)
+    Promise.all([data.pathOf(event.requestContext.path)
         .then(path => data.lookup(path))
         .then((url) => response(302, url))
         .catch(() => response(404))

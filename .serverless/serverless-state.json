@@ -120,7 +120,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/zircon/prod/1500417274124-2017-07-18T22:34:34.124Z/zircon.zip"
+                "S3Key": "serverless/zircon/prod/1500655322630-2017-07-21T16:42:02.630Z/zircon.zip"
               },
               "FunctionName": "zircon-prod-apiLookup",
               "Handler": "api.lookup",
@@ -139,14 +139,14 @@
               "IamRoleLambdaExecution"
             ]
           },
-          "ApiLookupLambdaVersionot5RXOtBNNmsOMyHznPggnS8f1yJFYx90yJp2Yubg": {
+          "ApiLookupLambdaVersion08wJGvNDtgmEhZgMQEC8OnqNsqk84g8Q18gzrL3KQ": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "ApiLookupLambdaFunction"
               },
-              "CodeSha256": "ot5+RXOt+BNNmsOMyHznPggnS8f1yJFYx90yJp2Yubg="
+              "CodeSha256": "0+8wJGvND/tgmEhZgMQEC8OnqNsqk84g8Q18gzrL3KQ="
             }
           },
           "PopLookupLambdaFunction": {
@@ -156,7 +156,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/zircon/prod/1500417274124-2017-07-18T22:34:34.124Z/zircon.zip"
+                "S3Key": "serverless/zircon/prod/1500655322630-2017-07-21T16:42:02.630Z/zircon.zip"
               },
               "FunctionName": "zircon-prod-popLookup",
               "Handler": "pop.lookup",
@@ -175,14 +175,14 @@
               "IamRoleLambdaExecution"
             ]
           },
-          "PopLookupLambdaVersionot5RXOtBNNmsOMyHznPggnS8f1yJFYx90yJp2Yubg": {
+          "PopLookupLambdaVersion08wJGvNDtgmEhZgMQEC8OnqNsqk84g8Q18gzrL3KQ": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "PopLookupLambdaFunction"
               },
-              "CodeSha256": "ot5+RXOt+BNNmsOMyHznPggnS8f1yJFYx90yJp2Yubg="
+              "CodeSha256": "0+8wJGvND/tgmEhZgMQEC8OnqNsqk84g8Q18gzrL3KQ="
             }
           },
           "ApiGatewayRestApi": {
@@ -290,7 +290,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1500417274134": {
+          "ApiGatewayDeployment1500655322640": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -345,13 +345,13 @@
           "ApiLookupLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "ApiLookupLambdaVersionot5RXOtBNNmsOMyHznPggnS8f1yJFYx90yJp2Yubg"
+              "Ref": "ApiLookupLambdaVersion08wJGvNDtgmEhZgMQEC8OnqNsqk84g8Q18gzrL3KQ"
             }
           },
           "PopLookupLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "PopLookupLambdaVersionot5RXOtBNNmsOMyHznPggnS8f1yJFYx90yJp2Yubg"
+              "Ref": "PopLookupLambdaVersion08wJGvNDtgmEhZgMQEC8OnqNsqk84g8Q18gzrL3KQ"
             }
           },
           "ServiceEndpoint": {
@@ -444,7 +444,7 @@
     "artifact": "/Users/faermanj/Dev/zircon/.serverless/zircon.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/zircon/prod/1500417274124-2017-07-18T22:34:34.124Z",
+    "artifactDirectoryName": "serverless/zircon/prod/1500655322630-2017-07-21T16:42:02.630Z",
     "artifact": "zircon.zip"
   }
 }
